@@ -79,8 +79,8 @@ irm https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-cl
 
 ---
 
-## 🌐 線上講義（已幫你發佈）
-一頁式教學網頁（可投影 / 發連結給學生）：
-**https://claude.ai/code/artifact/01f2fc7e-4390-4867-bf7f-3e509e2ce479**
+## 🌐 線上講義（GitHub Pages，掛在你自己名下）
+一頁式教學網頁（可投影 / 直接發連結給學生，公開可看）：
+**https://meicy321.github.io/claude-code-setup/**
 
-> 這是預設私人的；要給學生看的話，到該頁右上角的分享選單設成可分享。
+> 這個網頁的原始檔就是 repo 裡的 `index.html`，改它並 push 後，網站會自動更新（約 1 分鐘）。
