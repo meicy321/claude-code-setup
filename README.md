@@ -1,9 +1,16 @@
-# 免驚 AI ｜ Claude Code 無痛安裝（Windows 教學包）
+# 免驚 AI ｜ Claude Code 教學（Windows）
 
-> **AI 免驚，跟著做就會。**
-> 給新手：不用一個一個手動下載 Node.js、Git。**複製一行指令，全自動裝好。**
->
-> 📄 線上講義（可投影 / 發給學生）：**https://meicy321.github.io/claude-code-setup/**
+> **AI 免驚，跟著做就會。** 給新手的無痛教學：複製一行指令，全自動裝好。
+
+## 📖 線上講義（一本可翻頁的書 · 中／台／英三語）
+👉 **https://meicy321.github.io/claude-code-setup/**
+
+| 章節 | 主題 | 這一章幫你做的事 |
+|---|---|---|
+| **①** | 安裝 Claude Code | 一行指令裝好 Git、Node、Claude Code、VS Code + 擴充，並設好 Git Bash 終端機 |
+| **②** | 安裝 Statusline | 一行指令幫 Claude Code 加上專業狀態列（模型 / context / rate limit / git 狀態…）|
+
+> 每頁右上角可切換 **中文 / 台語 / English**；左上角切換章節。之後會持續新增章節。
 
 ---
 
