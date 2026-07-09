@@ -10,7 +10,7 @@
 2. 複製下面這一行，貼上、按 Enter：
 
 ```powershell
-irm https://raw.githubusercontent.com/<你的GitHub帳號>/<你的repo>/main/install-claude-code.ps1 | iex
+irm https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-claude-code.ps1 | iex
 ```
 
 腳本會自動：
