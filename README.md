@@ -2,6 +2,8 @@
 
 > **AI 免驚，跟著做就會。**
 > 給新手：不用一個一個手動下載 Node.js、Git。**複製一行指令，全自動裝好。**
+>
+> 📄 線上講義（可投影 / 發給學生）：**https://meicy321.github.io/claude-code-setup/**
 
 ---
 
