@@ -115,20 +115,57 @@ if (Test-Path $gitBash) {
     Write-Host "  未偵測到標準 Git Bash 路徑，略過"
 }
 
+# --- 5.5 建立桌面「Claude Code」捷徑（把「cd 進專案 + 開啟」全自動化，學生雙擊就能用）---
+Write-Step "建立桌面「Claude Code」捷徑（之後雙擊就能開，不用再打指令）"
+try {
+    # 專案資料夾（claude 會在這裡啟動）
+    $projDir = Join-Path $env:USERPROFILE "claude-code"
+    if (-not (Test-Path $projDir)) { New-Item -ItemType Directory -Path $projDir | Out-Null }
+
+    # 寫一支啟動小幫手：重新載入 PATH -> 切到本資料夾 -> 開啟 claude
+    $launcher = Join-Path $projDir "open-claude.ps1"
+    $launcherBody = @'
+# 由安裝精靈自動建立：重新載入 PATH、切到本資料夾、開啟 Claude Code
+$env:Path = [System.Environment]::GetEnvironmentVariable('Path','User') + ';' + [System.Environment]::GetEnvironmentVariable('Path','Machine')
+Set-Location -LiteralPath $PSScriptRoot
+Write-Host ''
+Write-Host '正在開啟 Claude Code...（第一次會請你用瀏覽器登入）' -ForegroundColor Cyan
+Write-Host ''
+claude
+'@
+    $utf8bom = New-Object System.Text.UTF8Encoding($true)
+    [System.IO.File]::WriteAllText($launcher, $launcherBody, $utf8bom)
+
+    # 桌面捷徑指向這支小幫手
+    $desktop = [Environment]::GetFolderPath('Desktop')
+    $lnkPath = Join-Path $desktop "Claude Code.lnk"
+    $psExe   = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
+    $ws = New-Object -ComObject WScript.Shell
+    $lnk = $ws.CreateShortcut($lnkPath)
+    $lnk.TargetPath = $psExe
+    $lnk.Arguments = '-NoExit -ExecutionPolicy Bypass -File "' + $launcher + '"'
+    $lnk.WorkingDirectory = $projDir
+    $lnk.Description = "開啟 Claude Code"
+    $claudeExe = Join-Path $env:USERPROFILE ".local\bin\claude.exe"
+    if (Test-Path $claudeExe) { $lnk.IconLocation = "$claudeExe,0" }
+    $lnk.Save()
+    Write-Ok "已在桌面建立「Claude Code」捷徑，專案資料夾：$projDir"
+} catch {
+    Write-Warn2 "建立桌面捷徑時有點小狀況（不影響安裝）：$($_.Exception.Message)"
+}
+
 # --- 6. 完成與下一步 ---
 Write-Host "`n============================================" -ForegroundColor Green
-Write-Host "   安裝流程完成！" -ForegroundColor Green
+Write-Host "   全部裝好了，你辛苦了！" -ForegroundColor Green
 Write-Host "============================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "接下來的步驟（重要）：" -ForegroundColor Cyan
-Write-Host "  1. 關閉這個視窗，重新開啟一個新的 PowerShell / 終端機（讓 PATH 生效）"
-Write-Host "  2. 進到你的專案資料夾，例如：  cd C:\我的專案"
-Write-Host "  3. 輸入：  claude"
-Write-Host "  4. 第一次會自動開瀏覽器登入（用 Claude Pro/Max 或 Console 帳號）"
-Write-Host "     若瀏覽器沒開，按 c 複製登入網址手動貼上"
+Write-Host "我在你的桌面放了一個『Claude Code』圖示 :)" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "常用指令：" -ForegroundColor Cyan
-Write-Host "  claude              啟動"
-Write-Host "  claude update       更新到最新版"
-Write-Host "  /login  /logout     在對話中切換帳號"
+Write-Host "  以後要用，只要一個動作："
+Write-Host "  ★ 直接雙擊桌面上的『Claude Code』圖示 —— 它會自動打開，不用打任何指令" -ForegroundColor White
+Write-Host ""
+Write-Host "  第一次打開會自動跳出瀏覽器，用你的 Claude 帳號登入就好。"
+Write-Host "  （要能實際對話，需要 Claude Pro / Max 訂閱喔）" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "（進階）想在別的資料夾用，也可以在那個資料夾開 PowerShell、輸入 claude。" -ForegroundColor DarkGray
 Write-Host ""
