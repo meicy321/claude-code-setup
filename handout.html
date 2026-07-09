@@ -1,4 +1,4 @@
-<title>Claude Code 無腦安裝流程（Windows）</title>
+<title>免驚 AI｜Claude Code 無腦安裝（Windows）</title>
 <style>
   :root {
     --bg: #FAF7F3;
@@ -62,6 +62,11 @@
 
   /* Hero */
   .hero { margin-bottom: 2.6rem; }
+  .brand { display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:1.4rem;
+    padding-bottom:1rem; border-bottom:2px solid var(--accent-soft); }
+  .brand-name { font-size:1.5rem; font-weight:800; letter-spacing:-.01em; color:var(--text); }
+  .brand-name b { color:var(--accent); font-weight:800; }
+  .brand-slogan { font-size:.92rem; color:var(--muted); font-weight:500; }
   .eyebrow {
     display: inline-flex; align-items: center; gap: .5rem;
     font-size: .74rem; font-weight: 600; letter-spacing: .12em;
@@ -255,6 +260,10 @@
 
     <!-- HERO -->
     <header class="hero">
+      <div class="brand">
+        <span class="brand-name">免驚 <b>AI</b></span>
+        <span class="brand-slogan">AI 免驚，跟著做就會</span>
+      </div>
       <span class="eyebrow"><span class="dot"></span>Windows 新手教學 · 一行指令</span>
       <h1>Claude Code 無腦安裝
         <span class="thin">複製一行、貼上、按 Enter — 環境全自動裝好</span>
@@ -414,8 +423,8 @@ npm install -g @anthropic
     </div>
 
     <footer>
+      <span><b>免驚 AI</b> · AI 免驚，跟著做就會</span>
       <span>Claude Code 安裝教學講義 · Windows</span>
-      <span>Git + Node.js 都裝，Claude Code 走原生安裝</span>
     </footer>
   </div>
 </div>

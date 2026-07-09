@@ -1,5 +1,6 @@
-# Claude Code 無痛安裝（Windows 教學包）
+# 免驚 AI ｜ Claude Code 無痛安裝（Windows 教學包）
 
+> **AI 免驚，跟著做就會。**
 > 給新手：不用一個一個手動下載 Node.js、Git。**複製一行指令，全自動裝好。**
 
 ---
