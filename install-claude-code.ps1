@@ -98,6 +98,56 @@ if ($hasClaude) {
     }
 }
 
+# --- 4.5 安裝 VS Code + Claude Code 擴充套件，並把終端機設成 Git Bash（和課程影片一致）---
+Write-Step "安裝 VS Code 與『Claude Code for VS Code』擴充套件"
+if ($null -eq (Get-Command code -ErrorAction SilentlyContinue) -and $hasWinget) {
+    Write-Host "  正在用 winget 安裝 VS Code..."
+    winget install --id Microsoft.VisualStudioCode -e --source winget --accept-package-agreements --accept-source-agreements
+    # 重新載入 PATH，讓 code 指令可用
+    $env:Path = [Environment]::GetEnvironmentVariable('Path','User') + ';' + [Environment]::GetEnvironmentVariable('Path','Machine')
+}
+
+function Get-CodeCmd {
+    $c = Get-Command code -ErrorAction SilentlyContinue
+    if ($c) { return $c.Source }
+    foreach ($p in @((Join-Path $env:LOCALAPPDATA 'Programs\Microsoft VS Code\bin\code.cmd'),
+                     (Join-Path $env:ProgramFiles 'Microsoft VS Code\bin\code.cmd'))) {
+        if (Test-Path $p) { return $p }
+    }
+    return $null
+}
+$codeCmd = Get-CodeCmd
+if ($codeCmd) {
+    Write-Ok "VS Code 已就緒"
+    Write-Host "  正在安裝『Claude Code for VS Code』擴充套件..."
+    try {
+        & $codeCmd --install-extension anthropic.claude-code --force | Out-Null
+        Write-Ok "擴充套件安裝完成"
+    } catch {
+        Write-Warn2 "擴充套件安裝時有點小狀況（開 VS Code 後在擴充商店搜『Claude Code』也可手動裝）"
+    }
+    # 把 VS Code 的預設終端機設成 Git Bash（和課程影片一樣）
+    try {
+        $vsDir = Join-Path $env:APPDATA 'Code\User'
+        if (-not (Test-Path $vsDir)) { New-Item -ItemType Directory -Path $vsDir | Out-Null }
+        $vsSettings = Join-Path $vsDir 'settings.json'
+        $obj = $null
+        if (Test-Path $vsSettings) {
+            try { $obj = Get-Content $vsSettings -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop } catch { $obj = $null }
+        }
+        if ($null -eq $obj) { $obj = New-Object PSObject }
+        if ($hasGit) {
+            $obj | Add-Member -NotePropertyName 'terminal.integrated.defaultProfile.windows' -NotePropertyValue 'Git Bash' -Force
+            $obj | ConvertTo-Json -Depth 20 | Set-Content -Path $vsSettings -Encoding UTF8
+            Write-Ok "已把 VS Code 的預設終端機設成 Git Bash"
+        }
+    } catch {
+        Write-Warn2 "設定 VS Code 終端機時略過（不影響使用）"
+    }
+} else {
+    Write-Warn2 "找不到 VS Code（可能沒有 winget）。可手動安裝：https://code.visualstudio.com/"
+}
+
 # --- 5. 若有裝 Git 但 Claude 找不到，寫入路徑設定 ---
 Write-Step "設定 Git Bash 路徑（若適用）"
 $gitBash = "C:\Program Files\Git\bin\bash.exe"
@@ -115,41 +165,64 @@ if (Test-Path $gitBash) {
     Write-Host "  未偵測到標準 Git Bash 路徑，略過"
 }
 
-# --- 5.5 建立桌面「Claude Code」捷徑（把「cd 進專案 + 開啟」全自動化，學生雙擊就能用）---
-Write-Step "建立桌面「Claude Code」捷徑（之後雙擊就能開，不用再打指令）"
+# --- 5.5 建立專案資料夾 + 桌面捷徑（雙擊用 VS Code 打開專案，和課程影片一致）---
+Write-Step "建立專案資料夾與桌面「Claude Code」捷徑"
 try {
-    # 專案資料夾（claude 會在這裡啟動）
     $projDir = Join-Path $env:USERPROFILE "claude-code"
     if (-not (Test-Path $projDir)) { New-Item -ItemType Directory -Path $projDir | Out-Null }
 
-    # 寫一支啟動小幫手：重新載入 PATH -> 切到本資料夾 -> 開啟 claude
-    $launcher = Join-Path $projDir "open-claude.ps1"
-    $launcherBody = @'
-# 由安裝精靈自動建立：重新載入 PATH、切到本資料夾、開啟 Claude Code
-$env:Path = [System.Environment]::GetEnvironmentVariable('Path','User') + ';' + [System.Environment]::GetEnvironmentVariable('Path','Machine')
-Set-Location -LiteralPath $PSScriptRoot
-Write-Host ''
-Write-Host '正在開啟 Claude Code...（第一次會請你用瀏覽器登入）' -ForegroundColor Cyan
-Write-Host ''
-claude
-'@
-    $utf8bom = New-Object System.Text.UTF8Encoding($true)
-    [System.IO.File]::WriteAllText($launcher, $launcherBody, $utf8bom)
+    # 放一個小說明檔，學生用 VS Code 打開專案就看得到怎麼開始
+    $howto = Join-Path $projDir "先看我-如何開始.txt"
+    $howtoBody = @'
+歡迎使用 Claude Code！
 
-    # 桌面捷徑指向這支小幫手
+在這個 VS Code 視窗裡，這樣開始：
+  1. 上方選單點 [Terminal] -> [New Terminal]（或按 Ctrl 和左上角的 反引號 鍵）
+  2. 終端機會用 Git Bash 打開
+  3. 輸入：  claude
+  4. 第一次會請你用瀏覽器登入（需要 Claude Pro / Max 訂閱）
+
+之後把你的程式檔案放進這個資料夾，就能請 Claude 幫你寫程式了。
+'@
+    [System.IO.File]::WriteAllText($howto, $howtoBody, (New-Object System.Text.UTF8Encoding($true)))
+
     $desktop = [Environment]::GetFolderPath('Desktop')
     $lnkPath = Join-Path $desktop "Claude Code.lnk"
-    $psExe   = Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe"
     $ws = New-Object -ComObject WScript.Shell
     $lnk = $ws.CreateShortcut($lnkPath)
-    $lnk.TargetPath = $psExe
-    $lnk.Arguments = '-NoExit -ExecutionPolicy Bypass -File "' + $launcher + '"'
-    $lnk.WorkingDirectory = $projDir
-    $lnk.Description = "開啟 Claude Code"
-    $claudeExe = Join-Path $env:USERPROFILE ".local\bin\claude.exe"
-    if (Test-Path $claudeExe) { $lnk.IconLocation = "$claudeExe,0" }
-    $lnk.Save()
-    Write-Ok "已在桌面建立「Claude Code」捷徑，專案資料夾：$projDir"
+
+    function Get-CodeExe {
+        foreach ($p in @((Join-Path $env:LOCALAPPDATA 'Programs\Microsoft VS Code\Code.exe'),
+                         (Join-Path $env:ProgramFiles 'Microsoft VS Code\Code.exe'))) {
+            if (Test-Path $p) { return $p }
+        }
+        return $null
+    }
+    $codeExe = Get-CodeExe
+    if ($codeExe) {
+        # 雙擊 -> 用 VS Code 打開專案資料夾
+        $lnk.TargetPath = $codeExe
+        $lnk.Arguments = '"' + $projDir + '"'
+        $lnk.WorkingDirectory = $projDir
+        $lnk.Description = "用 VS Code 打開 Claude Code 專案"
+        $lnk.Save()
+        Write-Ok "已在桌面建立「Claude Code」捷徑（雙擊用 VS Code 打開專案）"
+    } else {
+        # 備援：沒有 VS Code 時，雙擊改用 PowerShell 直接開 claude
+        $launcher = Join-Path $projDir "open-claude.ps1"
+        $lb = @'
+$env:Path = [System.Environment]::GetEnvironmentVariable('Path','User') + ';' + [System.Environment]::GetEnvironmentVariable('Path','Machine')
+Set-Location -LiteralPath $PSScriptRoot
+claude
+'@
+        [System.IO.File]::WriteAllText($launcher, $lb, (New-Object System.Text.UTF8Encoding($true)))
+        $lnk.TargetPath = (Join-Path $env:SystemRoot "System32\WindowsPowerShell\v1.0\powershell.exe")
+        $lnk.Arguments = '-NoExit -ExecutionPolicy Bypass -File "' + $launcher + '"'
+        $lnk.WorkingDirectory = $projDir
+        $lnk.Description = "開啟 Claude Code"
+        $lnk.Save()
+        Write-Ok "已在桌面建立「Claude Code」捷徑（雙擊直接開 Claude Code）"
+    }
 } catch {
     Write-Warn2 "建立桌面捷徑時有點小狀況（不影響安裝）：$($_.Exception.Message)"
 }
@@ -161,11 +234,11 @@ Write-Host "============================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "我在你的桌面放了一個『Claude Code』圖示 :)" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  以後要用，只要一個動作："
-Write-Host "  ★ 直接雙擊桌面上的『Claude Code』圖示 —— 它會自動打開，不用打任何指令" -ForegroundColor White
+Write-Host "  接下來這樣用（和課程影片一樣）：" -ForegroundColor Cyan
+Write-Host "  1. 雙擊桌面的『Claude Code』圖示 -> 會用 VS Code 打開你的專案" -ForegroundColor White
+Write-Host '  2. 在 VS Code 上方點 Terminal -> New Terminal（或按 Ctrl 和左上角的 反引號 鍵）'
+Write-Host "     （終端機已經幫你設成 Git Bash，和影片一樣）"
+Write-Host "  3. 在終端機輸入 claude，第一次會請你用瀏覽器登入" -ForegroundColor White
 Write-Host ""
-Write-Host "  第一次打開會自動跳出瀏覽器，用你的 Claude 帳號登入就好。"
-Write-Host "  （要能實際對話，需要 Claude Pro / Max 訂閱喔）" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "（進階）想在別的資料夾用，也可以在那個資料夾開 PowerShell、輸入 claude。" -ForegroundColor DarkGray
+Write-Host "  小提醒：要能實際對話，需要 Claude Pro / Max 訂閱喔" -ForegroundColor Yellow
 Write-Host ""
