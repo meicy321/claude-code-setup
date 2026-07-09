@@ -6,7 +6,11 @@
 
 ## 🚀 方法一｜一鍵腳本（最無痛，推薦給純新手）
 
-1. 按 **開始** → 搜尋 **PowerShell** → 打開
+> **先搞懂 PowerShell 是什麼**：它是 Windows 內建的「指令視窗」（藍底或黑底、可以打字下指令的框），不用另外安裝。
+> **怎麼打開**：按鍵盤左下角 **⊞ 開始** 鍵 → 直接輸入 `powershell` → 點開「Windows PowerShell」。
+> （或在 **⊞ 開始** 鍵上按滑鼠右鍵 → 選「終端機」/「Windows PowerShell」。）
+
+1. 用上面的方法打開 **PowerShell**
 2. 複製下面這一行，貼上、按 Enter：
 
 ```powershell
@@ -39,9 +43,9 @@ irm https://claude.ai/install.ps1 | iex   # 安裝 Claude Code 本體
 
 ---
 
-## 🧩 方法三｜Node.js / npm 路線（＝HiSKIO 課程教的方式）
+## 🧩 方法三｜Node.js / npm 路線（傳統做法）
 
-只有在「你本來就有 Node.js」或「想跟課程畫面完全一致」時才用這條。
+只有在「你本來就有 Node.js」或「想跟舊教材畫面完全一致」時才用這條。
 
 ```powershell
 winget install OpenJS.NodeJS            # Node.js 22 以上

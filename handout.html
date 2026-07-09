@@ -216,6 +216,27 @@
   .callout .mono { font-family:var(--font-mono); font-size:.86rem; background:var(--surface);
     padding:.1rem .4rem; border-radius:5px; border:1px solid var(--border); }
 
+  /* PowerShell intro */
+  .ps-intro { margin-top: 2.4rem; }
+  .ps-ways { display:grid; gap:1rem; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 720px){ .ps-ways{ grid-template-columns:1fr; } }
+  .ps-way {
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:1.1rem 1.2rem;
+  }
+  .ps-tag {
+    display:inline-block; font-size:.74rem; font-weight:700; letter-spacing:.04em;
+    color:var(--accent-2); background:var(--accent-soft); padding:.25rem .6rem;
+    border-radius:100px; margin-bottom:.7rem;
+  }
+  .ps-way ol { margin:0; padding-left:1.2rem; display:flex; flex-direction:column; gap:.4rem; }
+  .ps-way li { font-size:.94rem; }
+  .ps-note {
+    margin:1rem 0 0; font-size:.92rem; color:var(--muted);
+    background:var(--bg); border:1px dashed var(--border); border-radius:10px; padding:.75rem .95rem;
+  }
+  .ps-note code { font-family:var(--font-mono); font-size:.85rem; color:var(--accent-2); }
+
   footer { margin-top:3.2rem; padding-top:1.3rem; border-top:1px solid var(--border);
     color:var(--muted); font-size:.85rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
 
@@ -252,6 +273,30 @@
       </div>
       <p class="cmd-hint">※ 這行在 repo 上傳到 <b>github.com/meicy321/claude-code-setup</b> 後即可使用，直接發給學生。</p>
     </header>
+
+    <!-- WHAT IS POWERSHELL -->
+    <section class="ps-intro">
+      <div class="sec-head"><span class="k">前置</span><h2>先搞懂：PowerShell 是什麼？怎麼打開？</h2></div>
+      <p class="sec-sub">PowerShell 是 <b>Windows 內建</b>的「指令視窗」（一個藍底或黑底、可以打字下指令的框框），不用另外安裝。打開它有兩種方法，任選一種：</p>
+      <div class="ps-ways">
+        <div class="ps-way">
+          <span class="ps-tag">方法一 · 最簡單</span>
+          <ol>
+            <li>按鍵盤左下角的 <span class="kbd">⊞ 開始</span> 鍵（Windows 圖示）</li>
+            <li>直接打字輸入 <span class="kbd">powershell</span></li>
+            <li>看到「Windows PowerShell」App，點它打開</li>
+          </ol>
+        </div>
+        <div class="ps-way">
+          <span class="ps-tag">方法二 · 右鍵</span>
+          <ol>
+            <li>在左下角 <span class="kbd">⊞ 開始</span> 鍵上按<b>滑鼠右鍵</b></li>
+            <li>選單裡點 <span class="kbd">終端機</span> 或 <span class="kbd">Windows PowerShell</span></li>
+          </ol>
+        </div>
+      </div>
+      <p class="ps-note">💡 打開後會看到一個框，游標在 <code>PS C:\…&gt;</code> 後面閃爍，就代表可以貼指令了。貼上後按 <span class="kbd">Enter</span> 執行。</p>
+    </section>
 
     <!-- STUDENT 3 STEPS -->
     <section>
@@ -335,7 +380,7 @@ install.ps1 | iex</code>
         <div class="method">
           <span class="badge">課程版</span>
           <h3>③ npm 路線</h3>
-          <p class="who">＝HiSKIO 課程教的做法</p>
+          <p class="who">＝傳統 npm 安裝法</p>
           <code>winget install OpenJS.NodeJS
 winget install Git.Git
 npm install -g @anthropic
