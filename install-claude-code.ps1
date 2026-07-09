@@ -41,6 +41,15 @@ if ($build -lt 17763) {
 }
 Write-Ok "Windows 版本符合需求"
 
+# --- 1.5 讓你為專案資料夾命名（直接按 Enter 用預設）---
+Write-Step "幫你的專案資料夾取個名字"
+Write-Host "  這是等一下 Claude Code 會在裡面工作的資料夾。"
+$projName = Read-Host "  想叫什麼名字？（建議用英文/數字/減號；直接按 Enter 用預設 claude-code）"
+if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "claude-code" }
+$projName = ($projName -replace '[<>:"/\\|?*]', '').Trim()   # 清掉檔名不允許的字元
+if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "claude-code" }
+Write-Ok "好，專案資料夾就叫：$projName"
+
 # --- 2. 檢查 / 安裝 winget（套件管理器）---
 Write-Step "檢查套件管理器 winget"
 $hasWinget = $null -ne (Get-Command winget -ErrorAction SilentlyContinue)
@@ -105,7 +114,7 @@ if ($hasClaude) {
     }
 }
 
-# --- 4.5 安裝 VS Code + Claude Code 擴充套件，並把終端機設成 Git Bash（和課程影片一致）---
+# --- 4.5 安裝 VS Code + Claude Code 擴充套件，並把終端機設成 Git Bash ---
 Write-Step "安裝 VS Code 與『Claude Code for VS Code』擴充套件"
 if ($null -eq (Get-Command code -ErrorAction SilentlyContinue) -and $hasWinget) {
     Write-Host "  正在用 winget 安裝 VS Code..."
@@ -133,7 +142,7 @@ if ($codeCmd) {
     } catch {
         Write-Warn2 "擴充套件安裝時有點小狀況（開 VS Code 後在擴充商店搜『Claude Code』也可手動裝）"
     }
-    # 把 VS Code 的預設終端機設成 Git Bash（和課程影片一樣）
+    # 把 VS Code 的預設終端機設成 Git Bash（開發最順手）
     try {
         $vsDir = Join-Path $env:APPDATA 'Code\User'
         if (-not (Test-Path $vsDir)) { New-Item -ItemType Directory -Path $vsDir | Out-Null }
@@ -172,10 +181,10 @@ if (Test-Path $gitBash) {
     Write-Host "  未偵測到標準 Git Bash 路徑，略過"
 }
 
-# --- 5.5 建立專案資料夾 + 桌面捷徑（雙擊用 VS Code 打開專案，和課程影片一致）---
+# --- 5.5 建立專案資料夾 + 桌面捷徑（雙擊用 VS Code 打開專案）---
 Write-Step "建立專案資料夾與桌面「Claude Code」捷徑"
 try {
-    $projDir = Join-Path $env:USERPROFILE "claude-code"
+    $projDir = Join-Path $env:USERPROFILE $projName
     if (-not (Test-Path $projDir)) { New-Item -ItemType Directory -Path $projDir | Out-Null }
 
     # 放一個小說明檔，學生用 VS Code 打開專案就看得到怎麼開始
@@ -241,11 +250,12 @@ Write-Host "============================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "我在你的桌面放了一個『Claude Code』圖示 :)" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  接下來這樣用（和課程影片一樣）：" -ForegroundColor Cyan
+Write-Host "  接下來這樣用：" -ForegroundColor Cyan
 Write-Host "  1. 雙擊桌面的『Claude Code』圖示 -> 會用 VS Code 打開你的專案" -ForegroundColor White
-Write-Host '  2. 在 VS Code 上方點 Terminal -> New Terminal（或按 Ctrl 和左上角的 反引號 鍵）'
-Write-Host "     （終端機已經幫你設成 Git Bash，和影片一樣）"
-Write-Host "  3. 在終端機輸入 claude，第一次會請你用瀏覽器登入" -ForegroundColor White
+Write-Host "  2. 打開終端機：在 VS Code 最上方的選單列點『Terminal』->『New Terminal』" -ForegroundColor White
+Write-Host "     （鍵盤快速鍵：Ctrl 加上左上角 Esc 底下那個 反引號 鍵）"
+Write-Host "     終端機會從畫面下方跳出來，已經幫你設好用 Git Bash"
+Write-Host "  3. 在跳出來的終端機輸入 claude，第一次會請你用瀏覽器登入" -ForegroundColor White
 Write-Host ""
 Write-Host "  小提醒：要能實際對話，需要 Claude Pro / Max 訂閱喔" -ForegroundColor Yellow
 Write-Host ""
