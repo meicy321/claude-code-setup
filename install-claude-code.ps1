@@ -1,11 +1,18 @@
 <#
 ============================================================
-  Claude Code 無痛一鍵安裝腳本 (Windows)
-  適用：Windows 10 (1809+) / Windows 11
-  用途：教學用，讓新手一行指令裝好 Claude Code 與環境
+  免驚 AI ｜ Claude Code 無痛一鍵安裝腳本 (Windows)
+  AI 免驚，跟著做就會。
 ------------------------------------------------------------
-  使用方式（學生只要複製這一行到 PowerShell 貼上）：
-  irm https://raw.githubusercontent.com/<你的帳號>/<你的repo>/main/install-claude-code.ps1 | iex
+  適用：Windows 10 (1809+) / Windows 11
+  用途：讓新手一行指令裝好 Claude Code + VS Code 環境
+  使用方式（複製這一行貼到 PowerShell）：
+  irm https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-claude-code.ps1 | iex
+------------------------------------------------------------
+  Source : github.com/meicy321/claude-code-setup
+  作者   : 免驚 AI (github.com/meicy321)
+  License: CC BY-NC-SA 4.0（個人使用、學習、分享自由；禁止商業用途）
+           https://creativecommons.org/licenses/by-nc-sa/4.0/
+  (C) 2026 免驚 AI · fork 請保留本 header 作者資訊，勿冠品牌販售
 ============================================================
 #>
 
@@ -241,4 +248,13 @@ Write-Host "     （終端機已經幫你設成 Git Bash，和影片一樣）"
 Write-Host "  3. 在終端機輸入 claude，第一次會請你用瀏覽器登入" -ForegroundColor White
 Write-Host ""
 Write-Host "  小提醒：要能實際對話，需要 Claude Pro / Max 訂閱喔" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "===============================================================" -ForegroundColor DarkGray
+Write-Host " 免驚 AI ｜ Claude Code 無痛安裝教學" -ForegroundColor Magenta
+Write-Host " AI 免驚，跟著做就會" -ForegroundColor Magenta
+Write-Host " -------------------------------------------------------------" -ForegroundColor DarkGray
+Write-Host " Source  : github.com/meicy321/claude-code-setup" -ForegroundColor Gray
+Write-Host " License : CC BY-NC-SA 4.0 - 個人使用、學習、分享自由；禁止商業用途" -ForegroundColor Gray
+Write-Host " (C) 2026 免驚 AI - 歡迎分享，勿改標後販售" -ForegroundColor Gray
+Write-Host "===============================================================" -ForegroundColor DarkGray
 Write-Host ""
