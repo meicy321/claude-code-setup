@@ -246,11 +246,11 @@
           <span class="name">Windows PowerShell</span>
         </div>
         <div class="cmd-body">
-          <code id="cmd"><span class="prompt">PS&gt; </span><span class="fn">irm</span> https://raw.githubusercontent.com/<b>你的帳號</b>/claude-code-setup/main/install-claude-code.ps1 | <span class="fn">iex</span></code>
+          <code id="cmd"><span class="prompt">PS&gt; </span><span class="fn">irm</span> https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-claude-code.ps1 | <span class="fn">iex</span></code>
           <button class="copy-btn" id="copyBtn" type="button">複製指令</button>
         </div>
       </div>
-      <p class="cmd-hint">※ 老師：把 <b>你的帳號</b> 換成你的 GitHub 帳號後再發給學生。</p>
+      <p class="cmd-hint">※ 這行在 repo 上傳到 <b>github.com/meicy321/claude-code-setup</b> 後即可使用，直接發給學生。</p>
     </header>
 
     <!-- STUDENT 3 STEPS -->
@@ -381,7 +381,7 @@ npm install -g @anthropic
   (function () {
     var btn = document.getElementById('copyBtn');
     var toast = document.getElementById('toast');
-    var text = "irm https://raw.githubusercontent.com/你的帳號/claude-code-setup/main/install-claude-code.ps1 | iex";
+    var text = "irm https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-claude-code.ps1 | iex";
     btn.addEventListener('click', function () {
       navigator.clipboard.writeText(text).then(function () {
         toast.classList.add('show');
