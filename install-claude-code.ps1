@@ -181,6 +181,33 @@ if (Test-Path $gitBash) {
     Write-Host "  未偵測到標準 Git Bash 路徑，略過"
 }
 
+# --- 5.4 美化 Git Bash 提示字（乾淨短版：只顯示目前資料夾）---
+Write-Step "美化終端機提示字（讓畫面更乾淨好讀）"
+try {
+    $bashrc = Join-Path $env:USERPROFILE ".bashrc"
+    $marker = "# >>> mienjing-ai-prompt >>>"
+    $existing = if (Test-Path $bashrc) { Get-Content $bashrc -Raw -ErrorAction SilentlyContinue } else { "" }
+    if ($null -eq $existing) { $existing = "" }
+    if ($existing -notmatch [regex]::Escape($marker)) {
+        # 用 LF 換行寫入（.bashrc 不能有 CR，否則 bash 會出錯）
+        $lines = @(
+            '',
+            '# >>> mienjing-ai-prompt >>>',
+            '# clean short prompt: show current folder only',
+            'PS1=''\n\[\e[36m\]\w\[\e[0m\]\n$ ''',
+            '# <<< mienjing-ai-prompt <<<',
+            ''
+        )
+        $block = ($lines -join "`n")
+        [System.IO.File]::AppendAllText($bashrc, $block, (New-Object System.Text.UTF8Encoding($false)))
+        Write-Ok "終端機提示字已美化（乾淨短版）"
+    } else {
+        Write-Host "  提示字設定已存在，略過"
+    }
+} catch {
+    Write-Warn2 "美化提示字時略過（不影響使用）"
+}
+
 # --- 5.5 建立專案資料夾 + 桌面捷徑（雙擊用 VS Code 打開專案）---
 Write-Step "建立專案資料夾與桌面「Claude Code」捷徑"
 try {
