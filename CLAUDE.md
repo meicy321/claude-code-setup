@@ -31,6 +31,10 @@ irm https://raw.githubusercontent.com/meicy321/claude-code-setup/main/install-cl
 - The installer intentionally installs Claude Code via the official native installer (`irm https://claude.ai/install.ps1 | iex`), not npm, so it can auto-update independent of the Node.js version — don't collapse this into the npm route.
 - License is CC BY-NC-SA 4.0, non-commercial; the script header explicitly asks forks to retain author attribution and not resell under a different brand.
 
+## Git / push permissions
+
+The user (meicy321) has pre-authorized pushing to `origin` (`github.com/meicy321/claude-code-setup.git`) on `main` for this repo. Since `main` is what GitHub Pages deploys, this means: after committing a change here, push it to `origin/main` without asking for separate confirmation each time. This does not extend to other repos, and destructive operations (force-push, history rewrite, branch deletion) still require explicit confirmation as usual.
+
 ## Testing changes
 
 There is no automated test suite. To verify changes:
