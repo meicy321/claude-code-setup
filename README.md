@@ -2,27 +2,13 @@
 
 > **AI 免驚，跟著做就會。** 給新手的無痛教學：複製一行指令，全自動裝好。
 
-## 📖 線上講義（一本可翻頁的書 · 中／台／英三語）
-👉 **https://meicy321.github.io/claude-code-setup/**
+## 🍎 用 Mac 的朋友
 
-| 章節 | 主題 | 這一章幫你做的事 |
-|---|---|---|
-| **①** | 安裝 Claude Code | 一行指令裝好 Git、Node、Claude Code、VS Code + 擴充，並設好 Git Bash 終端機 |
-| **②** | 安裝 Statusline | 一行指令幫 Claude Code 加上專業狀態列（模型 / context / rate limit / git 狀態…）|
-| **③** | 第一張生日卡片 | 三秒有感：一句話做出會動的生日卡片網頁，親眼看 AI 真的動手 |
-| **④** | AI 原理 | 看懂 Token 與「文字接龍」——AI 為什麼聽得懂人話，又為什麼會一本正經答錯 |
-| **⑤** | AI Agent | 會動手的 AI：工具呼叫怎麼運作、Human in the loop 為什麼方向盤在你手上 |
-| **⑥** | CLAUDE.md | 教它認識你：/init 自動生成說明書，偏好說一次、永遠記得 |
-| **⑦** | 指令地圖 | 安全（esc／回上一步）、記憶管理（/context、/compact）、Plan Mode 完整參考頁 |
-| **⑧** | Skill | 裝官方簡報技能 + 會反過來採訪你的 grill-me，把重複流程變成一句話 |
-| **⑨** | MCP | 像 USB 一樣接上新能力：裝 Playwright 讓 Claude 自己開瀏覽器上網 |
-| **⑩** | Subagent | 分身術：派分身平行做事、只收重點回報，主對話不塞爆 |
-| **⑪** | 實戰 | 畢業製作：貪食蛇或抽獎轉盤，完整走一次專業 AI 工作流 |
-| **⑫** | 發布 | 部署到 GitHub Pages，拿到真正的網址傳給朋友 |
-| **⑬** | 作品展示 | 五個真實作品（英語遊戲、AI 陪讀家教、個人維基、寫作生產線、AI 開課）＋起手 Prompt 販賣機 |
-| **⑭** | 學習資源 | 作者親自看過上過的推薦：李宏毅、Matt Pocock、Claude Taiwan 社團、台大電機暑期課、矽谷叔叔 |
+👉 **https://meicy321.github.io/claude-code-setup/mac-install.html**（單頁三語切換：中文／台語／English）
 
-> 每頁右上角可切換 **中文 / 台語 / English**；上方導覽列切換章節。全部十四章已上線。
+## 📖 完整課程講義
+
+完整的十四章線上講義（AI 原理、Agent、CLAUDE.md、指令地圖……）目前為實體課程專用教材，未公開發布。有上課的同學會另外收到連結。
 
 ---
 
