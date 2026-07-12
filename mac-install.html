@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="免驚 AI｜Claude Code 無痛安裝教學（macOS 版）：三分鐘裝好 Claude Code + VS Code">
+<meta name="description" content="免驚 AI｜Claude Code 無痛安裝教學（macOS 版）：三分鐘裝好 Claude Code + VS Code，支援中文／台語／英文切換">
 <title>免驚 AI｜Claude Code 無痛安裝（Mac 版）</title>
 <style>
   :root {
@@ -54,10 +54,20 @@
   }
   .wrap { max-width: var(--maxw); margin: 0 auto; }
 
-  .toplink { display:flex; justify-content:flex-end; margin-bottom:1.4rem; }
+  .topbar { display:flex; justify-content:space-between; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:1.4rem; }
   .toplink a { font-size:.82rem; font-weight:600; text-decoration:none; color:var(--muted);
     padding:.35rem .8rem; border-radius:100px; border:1px solid var(--border); background:var(--surface); transition:all .15s; }
   .toplink a:hover { color:var(--accent-2); border-color:var(--accent); }
+
+  .langnav { display:flex; gap:.4rem; }
+  .langnav button { font-family:inherit; font-size:.82rem; font-weight:600; cursor:pointer; text-decoration:none; color:var(--muted);
+    padding:.35rem .8rem; border-radius:100px; border:1px solid var(--border); background:var(--surface); transition:all .15s; }
+  .langnav button:hover { color:var(--accent-2); border-color:var(--accent); }
+  .langnav button.active { color:#fff; background:var(--accent); border-color:var(--accent); }
+
+  .lang-panel { display:none; }
+  .lang-panel.on { display:block; animation:fadein .25s ease; }
+  @keyframes fadein { from{opacity:0} to{opacity:1} }
 
   .hero { margin-bottom: 2.4rem; }
   .brand { display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:1.4rem;
@@ -203,10 +213,17 @@
 <div class="page">
   <div class="wrap">
 
-    <nav class="toplink">
-      <a href="index.html">← 回主教材（Windows 版）</a>
-    </nav>
+    <div class="topbar">
+      <nav class="toplink"><a id="backlink" href="index.html">← 回主教材（Windows 版）</a></nav>
+      <nav class="langnav">
+        <button type="button" class="lang-btn active" data-lang="zh">中文</button>
+        <button type="button" class="lang-btn" data-lang="tai">台語</button>
+        <button type="button" class="lang-btn" data-lang="en">English</button>
+      </nav>
+    </div>
 
+    <!-- ============ 中文 ============ -->
+    <div class="lang-panel on" id="panel-zh">
     <header class="hero">
       <div class="brand">
         <span class="brand-name">免驚 <b>AI</b></span>
@@ -229,8 +246,8 @@
           <span class="name">Terminal（終端機）</span>
         </div>
         <div class="cmd-body">
-          <code id="cmd"><span class="prompt">$ </span><span class="fn">curl</span> -fsSL https://claude.ai/install.sh | <span class="fn">bash</span></code>
-          <button class="copy-btn" id="copyBtn" data-copy-cmd type="button">複製指令</button>
+          <code><span class="prompt">$ </span><span class="fn">curl</span> -fsSL https://claude.ai/install.sh | <span class="fn">bash</span></code>
+          <button class="copy-btn" data-copy-cmd type="button">複製指令</button>
         </div>
       </div>
       <p class="cmd-hint">還不知道「終端機」是什麼嗎？別擔心，往下看第一段，我們會慢慢說明給你聽 👇</p>
@@ -411,6 +428,424 @@ claude-code</code>
       <span><b>免驚 AI</b> · AI 免驚，跟著做就會 · © 2026</span>
       <span>Source：<a href="https://github.com/meicy321/claude-code-setup" style="color:var(--accent-2);text-decoration:none">github.com/meicy321/claude-code-setup</a></span>
     </footer>
+    </div>
+
+    <!-- ============ 台語 ============ -->
+    <div class="lang-panel" id="panel-tai">
+    <header class="hero">
+      <div class="brand">
+        <span class="brand-name">免驚 <b>AI</b></span>
+        <span class="brand-slogan">AI 免驚，綴leh做就會曉</span>
+      </div>
+      <span class="eyebrow"><span class="dot"></span>macOS · VS Code · 一逝指令搞定</span>
+      <h1>歡迎來裝 Claude Code！<span style="color:var(--accent)">（Mac 版）</span>
+        <span class="thin">莫緊張，第一擺嘛無要緊～ 這一頁專門予用 Mac 的你，仝款一步一步來 🍎</span>
+      </h1>
+      <p class="lede">主教材是予 Windows 電腦用的，若是你用 Mac，綴<b>這一頁</b>做就好——仝款毋免先捌程式，拍開「終端機」貼一逝指令、㧎 Enter，Claude Code 就會家己裝好。</p>
+
+      <div class="prep">
+        <span class="prep-badge">開始進前 · 溫馨提醒</span>
+        <p>拜託你<b>先準備好一个 Claude 注文</b>，等一下才會當順利使用喔 🙂 Claude Code 需要 <b>Claude Pro 抑是 Max 方案</b>（差不多 US$20/月起）。安裝本身毋免 log-in，毋過若是猶未注文，裝好了後佇 log-in 彼步就袂當用。建議先去 <b>claude.ai</b> 完成注文，才閣倒轉來綴下跤做。</p>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-bar">
+          <span class="tl r"></span><span class="tl y"></span><span class="tl g"></span>
+          <span class="name">Terminal（終端機）</span>
+        </div>
+        <div class="cmd-body">
+          <code><span class="prompt">$ </span><span class="fn">curl</span> -fsSL https://claude.ai/install.sh | <span class="fn">bash</span></code>
+          <button class="copy-btn" data-copy-cmd type="button">複製指令</button>
+        </div>
+      </div>
+      <p class="cmd-hint">猶毋知「終端機」是啥物嗎？免煩惱，繼續看下跤第一段，阮會勻勻仔講予你聽 👇</p>
+    </header>
+
+    <section>
+      <div class="sec-head"><span class="k">前置</span><h2>先來捌「終端機」（Terminal，足簡單，莫驚）</h2></div>
+      <p class="sec-sub">終端機是Mac原本就有的軟體（一个會當拍字落指令的視窗），毋免另外安裝。拍開伊只要幾秒鐘，下跤兩種方法揀一種就好：</p>
+      <div class="ps-ways">
+        <div class="ps-way">
+          <span class="ps-tag">方法一 · 上推薦</span>
+          <ol>
+            <li>㧎鍵盤的 <span class="kbd">⌘ Command</span> + <span class="kbd">空白鍵</span>，叫出 Spotlight 搜尋</li>
+            <li>直接拍 <span class="kbd">terminal</span></li>
+            <li>看著「終端機 Terminal」，㧎 <span class="kbd">Enter</span> 拍開就好</li>
+          </ol>
+        </div>
+        <div class="ps-way">
+          <span class="ps-tag">方法二 · 對資料夾揣</span>
+          <ol>
+            <li>拍開 Finder → 倒爿㧎 <span class="kbd">應用程式 Applications</span></li>
+            <li>㧎入去 <span class="kbd">工具程式 Utilities</span> 資料夾</li>
+            <li>雙㧎「終端機 Terminal」圖示</li>
+          </ol>
+        </div>
+      </div>
+      <p class="ps-note">💡 拍開了後會看著一个框，游標佇你電腦的名後壁閃爍（生做親像 <code>yourname@MacBook ~ %</code>），就表示準備好矣，會當貼指令矣。貼起來了後㧎 <span class="kbd">Enter</span> 就會開始，足簡單的齁 🙂</p>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">流程</span><h2>接落來，你只要做這 3 項代誌</h2></div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <h3>拍開終端機</h3>
+          <p>用頂懸教的方法拍開伊，準備好就會使矣，毋免緊張。</p>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <h3>貼指令、㧎 Enter</h3>
+          <p>共這逝貼起去、㧎 <span class="kbd">Enter</span>，然後放輕鬆，予伊家己走就好。</p>
+          <div class="cmd-card" style="margin-top:.4rem">
+            <div class="cmd-body" style="padding:.7rem .8rem;">
+              <code style="font-size:.78rem;">curl -fsSL https://claude.ai/install.sh | bash</code>
+              <button class="copy-btn" data-copy-cmd type="button">複製指令</button>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <h3>重開終端機、拍 claude</h3>
+          <p>裝好了後<b>共終端機關掉、重新拍開一个新的</b>，拍 <span class="kbd">claude</span>、㧎 Enter，log-in 你的帳號，就完成矣！</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">背後</span><h2>這一逝指令，會貼心替你款好這寡</h2></div>
+      <p class="sec-sub">Mac 版行的是官方「原生安裝」路線——<b>毋免代先裝 Node.js，嘛毋免 Homebrew</b>，這逝指令會家己下載一个獨立運作的程式：</p>
+      <div class="pipe">
+        <div class="pipe-row"><span class="ic">↓</span><div class="tx"><b>下載官方簽署過的安裝檔</b><span>為啥物會當放心：這是 Anthropic 官方簽名的程式，毋是來路不明的檔案</span></div><span class="tag auto">自動</span></div>
+        <div class="pipe-row"><span class="ic">📁</span><div class="tx"><b>裝入去你家己的使用者資料夾</b><span>為啥物欲按呢：裝佇 <span class="mono">~/.local/bin</span>，毋免你拍電腦密碼（毋免 sudo）</span></div><span class="tag auto">自動</span></div>
+        <div class="pipe-row"><span class="ic">⚙</span><div class="tx"><b>共指令路徑寫入去終端機設定</b><span>為啥物愛裝：按呢以後佇任何一个資料夾拍開終端機，攏捌 <span class="mono">claude</span> 這个指令</span></div><span class="tag auto">自動</span></div>
+        <div class="pipe-row"><span class="ic">🔄</span><div class="tx"><b>了後佇背景家己更新</b><span>為啥物欲按呢：用官方原生方式裝，了後有新版會家己更新</span></div><span class="tag auto">自動</span></div>
+        <div class="pipe-row"><span class="ic">🔑</span><div class="tx"><b>Log-in 你的帳號</b><span>這一步愛你本人操作，用家己的帳號安心 log-in</span></div><span class="tag skip">手動</span></div>
+      </div>
+      <div class="callout">
+        <span class="big">💡</span>
+        <p><b>Mac 用戶的小確幸：</b>Mac 內建的終端機（zsh）本身就佮 Claude Code 處甲真好，<b>毋免閣額外裝 Git Bash</b>（彼是 Windows 版才需要的物件）——這件代誌佇 Mac 頂懸少一步 🙂</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">畫面</span><h2>你會看著的畫面（看著青色拍勾就著矣）</h2></div>
+      <p class="sec-sub">走起來的時，畫面大概生做按呢：</p>
+      <div class="term">
+<pre><span class="c">==&gt; Downloading Claude Code...</span>
+  <span class="g">✓</span> Downloaded and verified
+  <span class="g">✓</span> Installed to ~/.local/bin/claude
+
+<span class="c">==&gt; Setting up your shell...</span>
+  <span class="g">✓</span> Added to ~/.zshrc
+
+<span class="d">────────────────────────────────────────────</span>
+  <span class="g">Claude Code is ready!</span>  共終端機關掉、重新拍開一个 → 拍 <span class="a">claude</span></pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">安裝 VS Code</span><h2>順紲裝一个好用的編輯器</h2></div>
+      <p class="sec-sub">Claude Code 本身佇終端機就會使用，毋過搭配 <b>VS Code</b> 這个編輯器，你會當同齊看著檔案、終端機、Claude 的對話畫面，會較順手：</p>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <h3>下載 VS Code</h3>
+          <p>去 <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>，揀 <b>Mac</b> 版下載，提著一个 .zip 檔。</p>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <h3>拖入去「應用程式」</h3>
+          <p>解壓縮了後共 <span class="mono">Visual Studio Code</span> 拖入去 Finder 的「應用程式 Applications」資料夾。</p>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <h3>裝擴充套件</h3>
+          <p>拍開 VS Code，倒爿「擴充功能」圖示（四塊細方塊）→ 搜尋 <span class="kbd">Claude Code</span> → 㧎安裝。</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="big">🍎</span>
+        <p><b>第一擺拍開可能會予擋著：</b>Mac 對「對網路下載的 App」較保護，若是迸出「無法度拍開，因為是身份不明的開發者」，去 <b>系統設定 → 隱私權佮安全性</b>，捲到上下面會看著一个「強制拍開」的按鈕，㧎一下就好。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">備用</span><h2>一鍵安裝無成功？照按呢手動裝一擺</h2></div>
+      <p class="sec-sub">大部份 Mac 用一鍵指令攏會順利，毋過若是你的電腦環境較特殊，遮有另外兩種官方認可的做法：</p>
+      <div class="methods">
+        <div class="method best">
+          <span class="badge">上推薦</span>
+          <h3>① 官方原生安裝</h3>
+          <p class="who">就是頂懸彼逝，適合逐家</p>
+          <code>curl -fsSL https://claude.ai/
+install.sh | bash</code>
+        </div>
+        <div class="method">
+          <span class="badge">Mac 老手愛用</span>
+          <h3>② Homebrew</h3>
+          <p class="who">若是你電腦已經有裝 Homebrew</p>
+          <code>brew install --cask
+claude-code</code>
+        </div>
+        <div class="method">
+          <span class="badge">傳統做法</span>
+          <h3>③ npm 路線</h3>
+          <p class="who">需要先裝 Node.js 18 以上</p>
+          <code>npm install -g
+@anthropic-ai/claude-code</code>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="big">💡</span>
+        <p><b>無確定欲揀佗一个？</b>就用①，彼是官方這馬上推薦的方式，毋免你電腦先裝任何物件，了後嘛會家己更新。②佮③是予已經有家己開發習慣的人用的，一般人毋免特別揀。</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">卡關</span><h2>拄著狀況？免煩惱，遮攏有解</h2></div>
+      <p class="sec-sub">卡牢的時陣，毋免家己對照下跤的表格臆——上緊、上準的方法是這一步：</p>
+      <div class="callout">
+        <span class="big">📸</span>
+        <p><b>共規个錯誤畫面翕相，直接問 AI。</b>㧎 <span class="kbd">⌘ Command + Shift + 4</span> 翕相（框揀你欲的範圍），佇手機仔抑是另外一台電腦拍開 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>（網頁版就會使用，毋免這台電腦先款好），共翕的相貼上去，共伊講：「我佇 Mac 裝 Claude Code 卡牢矣，這是啥物意思？我欲按怎做？」——伊看有畫面頂懸的字，會直接共你講後一步欲按怎做。</p>
+      </div>
+      <p class="sec-sub" style="margin-top:1.4rem">若是你想欲家己先查，這幾个是上捷拄著的狀況：</p>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>狀況</th><th>按呢做就好</th></tr></thead>
+          <tbody>
+            <tr><td>拍 <span class="mono">curl</span> 講揣無指令</td><td>幾若毋捌發生——<span class="mono">curl</span> 是 Mac 內建的，若是真正揣無，代表你的 Mac 系統版本真舊，先更新 macOS</td></tr>
+            <tr><td>拍 <span class="mono">claude</span> 講揣無指令</td><td>共終端機關掉，<b>重新拍開一个新視窗</b>就好（予設定生效）；猶原袂使，共終端機完全結束（Command+Q）才閣開一擺</td></tr>
+            <tr><td>VS Code「無法度拍開，開發者身份不明」</td><td>系統設定 → 隱私權佮安全性 → 捲到上下面 → 㧎「強制拍開」</td></tr>
+            <tr><td>權限不足 / Permission denied</td><td>官方安裝毋免拍密碼；若是迸出來欲你拍密碼，先翕相問 AI 確認是毋是正常流程</td></tr>
+            <tr><td>裝煞 Claude Code 無反應</td><td>去終端機拍 <span class="mono">echo $PATH</span>，看有無出現 <span class="mono">.local/bin</span>，無的話重開機才閣試一擺</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">完成</span><h2>裝好矣，然後咧？</h2></div>
+      <div class="callout">
+        <span class="big">🎉</span>
+        <p><b>恭喜！</b>後壁的學習內容（欲按怎用 Claude Code、CLAUDE.md、指令地圖……）攏佇主教材內底，Mac 佮 Windows 用起來完全仝款，差別干焦佇「按怎裝」——這一頁的任務就到遮。倒轉去<a href="tai.html">主教材</a>對第③章開始綴leh做！</p>
+      </div>
+    </section>
+
+    <footer>
+      <span><b>免驚 AI</b> · AI 免驚，綴leh做就會曉 · © 2026</span>
+      <span>Source：<a href="https://github.com/meicy321/claude-code-setup" style="color:var(--accent-2);text-decoration:none">github.com/meicy321/claude-code-setup</a></span>
+    </footer>
+    </div>
+
+    <!-- ============ English ============ -->
+    <div class="lang-panel" id="panel-en">
+    <header class="hero">
+      <div class="brand">
+        <span class="brand-name">Bián-kiaⁿ <b>AI</b></span>
+        <span class="brand-slogan">No fear, no code — just follow along</span>
+      </div>
+      <span class="eyebrow"><span class="dot"></span>macOS · VS Code · Done in one command</span>
+      <h1>Welcome to installing Claude Code!<span style="color:var(--accent)"> (Mac Edition)</span>
+        <span class="thin">No stress, even if it's your first time — this page is just for Mac users, same gentle step-by-step 🍎</span>
+      </h1>
+      <p class="lede">The main guide is written for Windows. If you're on a Mac, follow <b>this page</b> instead — you still don't need to know how to code. Just open the "Terminal," paste one command, press Enter, and Claude Code installs itself.</p>
+
+      <div class="prep">
+        <span class="prep-badge">Before you start</span>
+        <p>Please <b>have a Claude subscription ready first</b> so everything works smoothly in a moment 🙂 Claude Code needs a <b>Claude Pro or Max plan</b> (roughly US$20/month and up). The install itself doesn't need a login, but you'll need it at the login step once it's installed. We recommend subscribing at <b>claude.ai</b> first, then coming back to follow along below.</p>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-bar">
+          <span class="tl r"></span><span class="tl y"></span><span class="tl g"></span>
+          <span class="name">Terminal</span>
+        </div>
+        <div class="cmd-body">
+          <code><span class="prompt">$ </span><span class="fn">curl</span> -fsSL https://claude.ai/install.sh | <span class="fn">bash</span></code>
+          <button class="copy-btn" data-copy-cmd type="button">Copy command</button>
+        </div>
+      </div>
+      <p class="cmd-hint">Not sure what "Terminal" is yet? Don't worry — read the first section below and we'll explain it gently, step by step 👇</p>
+    </header>
+
+    <section>
+      <div class="sec-head"><span class="k">Prep</span><h2>Meet the Terminal first (it's easy, don't be scared)</h2></div>
+      <p class="sec-sub">Terminal is a little tool that's already built into your Mac (a window where you can type commands) — nothing extra to install. Opening it takes just a few seconds. Pick whichever of the two ways below you like:</p>
+      <div class="ps-ways">
+        <div class="ps-way">
+          <span class="ps-tag">Method 1 · Recommended</span>
+          <ol>
+            <li>Press <span class="kbd">⌘ Command</span> + <span class="kbd">Space</span> together to bring up Spotlight search</li>
+            <li>Type <span class="kbd">terminal</span></li>
+            <li>When you see "Terminal," press <span class="kbd">Enter</span> to open it</li>
+          </ol>
+        </div>
+        <div class="ps-way">
+          <span class="ps-tag">Method 2 · From Finder</span>
+          <ol>
+            <li>Open Finder → click <span class="kbd">Applications</span> in the sidebar</li>
+            <li>Open the <span class="kbd">Utilities</span> folder</li>
+            <li>Double-click the "Terminal" icon</li>
+          </ol>
+        </div>
+      </div>
+      <p class="ps-note">💡 Once it opens you'll see a window with a blinking cursor after your computer's name (something like <code>yourname@MacBook ~ %</code>) — that means it's ready and you can paste the command. Paste it, press <span class="kbd">Enter</span>, and it'll get going. Easy, right? 🙂</p>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Flow</span><h2>Next, all you have to do is these 3 things</h2></div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <h3>Open Terminal</h3>
+          <p>Open it using the method above. Once it's ready you're good to go — no need to be nervous.</p>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <h3>Paste the command, press Enter</h3>
+          <p>Paste this line, press <span class="kbd">Enter</span>, then relax and let it run on its own.</p>
+          <div class="cmd-card" style="margin-top:.4rem">
+            <div class="cmd-body" style="padding:.7rem .8rem;">
+              <code style="font-size:.78rem;">curl -fsSL https://claude.ai/install.sh | bash</code>
+              <button class="copy-btn" data-copy-cmd type="button">Copy command</button>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <h3>Reopen Terminal, type claude</h3>
+          <p>Once it's installed, <b>close Terminal and open a fresh one</b>, type <span class="kbd">claude</span>, press Enter, log in, and you're done!</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Behind the scenes</span><h2>This one command kindly takes care of all this for you</h2></div>
+      <p class="sec-sub">The Mac edition uses the official "native install" route — <b>no Node.js required, no Homebrew required</b>. This command downloads a self-contained program. Here's how it differs from the Windows edition:</p>
+      <div class="pipe">
+        <div class="pipe-row"><span class="ic">↓</span><div class="tx"><b>Download the officially signed installer</b><span>Why it's safe: this is a program signed by Anthropic itself, not something from an unknown source</span></div><span class="tag auto">Auto</span></div>
+        <div class="pipe-row"><span class="ic">📁</span><div class="tx"><b>Install into your own user folder</b><span>Why: it installs to <span class="mono">~/.local/bin</span>, so it never asks for your Mac password (no sudo)</span></div><span class="tag auto">Auto</span></div>
+        <div class="pipe-row"><span class="ic">⚙</span><div class="tx"><b>Add the command to your shell config</b><span>Why: so <span class="mono">claude</span> is recognized no matter which folder you open Terminal in afterward</span></div><span class="tag auto">Auto</span></div>
+        <div class="pipe-row"><span class="ic">🔄</span><div class="tx"><b>Auto-updates in the background afterward</b><span>Why: same as the Windows edition — the official native installer keeps itself updated</span></div><span class="tag auto">Auto</span></div>
+        <div class="pipe-row"><span class="ic">🔑</span><div class="tx"><b>Log in to your account</b><span>This one step needs you personally — log in safely with your own account</span></div><span class="tag skip">Manual</span></div>
+      </div>
+      <div class="callout">
+        <span class="big">💡</span>
+        <p><b>The biggest difference from Windows:</b> your Mac's built-in Terminal (zsh) already gets along fine with Claude Code — <b>you don't need the extra Git Bash setup step the Windows edition requires</b>. One less thing to worry about; call it a small Mac-user perk 🙂</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">What you'll see</span><h2>What it looks like on screen (green checkmarks mean you're good)</h2></div>
+      <p class="sec-sub">While it's running, the screen looks roughly like this:</p>
+      <div class="term">
+<pre><span class="c">==&gt; Downloading Claude Code...</span>
+  <span class="g">✓</span> Downloaded and verified
+  <span class="g">✓</span> Installed to ~/.local/bin/claude
+
+<span class="c">==&gt; Setting up your shell...</span>
+  <span class="g">✓</span> Added to ~/.zshrc
+
+<span class="d">────────────────────────────────────────────</span>
+  <span class="g">Claude Code is ready!</span>  Close Terminal, open a fresh one → type <span class="a">claude</span></pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Install VS Code</span><h2>A nice editor to go with it</h2></div>
+      <p class="sec-sub">Claude Code works fine in Terminal on its own, but pairing it with <b>VS Code</b> lets you see your files, the terminal, and Claude's conversation all at once — much smoother. This step is nearly identical to the Windows edition:</p>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <h3>Download VS Code</h3>
+          <p>Go to <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>, pick the <b>Mac</b> version, and download the .zip file.</p>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <h3>Drag into Applications</h3>
+          <p>After unzipping, drag <span class="mono">Visual Studio Code</span> into Finder's "Applications" folder.</p>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <h3>Install the extension</h3>
+          <p>Open VS Code, click the Extensions icon in the sidebar (four little squares) → search for <span class="kbd">Claude Code</span> → click Install.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="big">🍎</span>
+        <p><b>First launch might get blocked:</b> Macs are protective of apps downloaded from the internet. If you see "can't be opened because it is from an unidentified developer," go to <b>System Settings → Privacy &amp; Security</b>, scroll to the bottom, and click "Open Anyway."</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Backup plan</span><h2>One-click install didn't work? Here's how to do it by hand</h2></div>
+      <p class="sec-sub">The one-click command works smoothly for the vast majority of Mac users, but if your setup is a bit unusual, here are two other officially supported methods:</p>
+      <div class="methods">
+        <div class="method best">
+          <span class="badge">Recommended</span>
+          <h3>① Official native install</h3>
+          <p class="who">Same as above — works for everyone</p>
+          <code>curl -fsSL https://claude.ai/
+install.sh | bash</code>
+        </div>
+        <div class="method">
+          <span class="badge">Mac power users</span>
+          <h3>② Homebrew</h3>
+          <p class="who">If you already have Homebrew installed</p>
+          <code>brew install --cask
+claude-code</code>
+        </div>
+        <div class="method">
+          <span class="badge">Legacy route</span>
+          <h3>③ npm route</h3>
+          <p class="who">Requires Node.js 18 or higher first</p>
+          <code>npm install -g
+@anthropic-ai/claude-code</code>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="big">💡</span>
+        <p><b>Not sure which to pick?</b> Use ①. It's the officially recommended way, doesn't require anything pre-installed on your Mac, and keeps itself updated afterward. ② and ③ are for people who already have their own development habits — most people don't need to choose them specially.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Stuck?</span><h2>Hit a snag? Don't worry, there's a fix here</h2></div>
+      <p class="sec-sub">When you're stuck, don't try to match your situation against the table below — the fastest, most reliable move is this one:</p>
+      <div class="callout">
+        <span class="big">📸</span>
+        <p><b>Screenshot the whole error screen and just ask AI.</b> Press <span class="kbd">⌘ Command + Shift + 4</span> to screenshot it (drag to select the area), open <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> on your phone or another computer (the web version works fine — you don't need this machine set up already), paste the screenshot in, and say: "I'm stuck installing Claude Code on my Mac — what does this mean, and what should I do?" It can read the text on your screen and will tell you exactly what to do next.</p>
+      </div>
+      <p class="sec-sub" style="margin-top:1.4rem">If you'd rather look it up yourself first, here are the most common issues:</p>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>Situation</th><th>Do this</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">curl</span>: command not found</td><td>Almost never happens — <span class="mono">curl</span> ships with every Mac. If it truly doesn't exist, your macOS version is very old; update macOS first</td></tr>
+            <tr><td><span class="mono">claude</span>: command not found</td><td>Close Terminal and <b>open a brand-new window</b> (so the settings take effect); if it still doesn't work, fully quit Terminal (Command+Q) and reopen it</td></tr>
+            <tr><td>VS Code "can't be opened, developer cannot be verified"</td><td>System Settings → Privacy &amp; Security → scroll to the bottom → click "Open Anyway"</td></tr>
+            <tr><td>Permission denied</td><td>The official installer never asks for your password; if something does prompt for one, screenshot it and ask AI whether that's expected</td></tr>
+            <tr><td>Nothing happens after installing Claude Code</td><td>In Terminal, run <span class="mono">echo $PATH</span> and check whether <span class="mono">.local/bin</span> appears; if not, restart your Mac and try again</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="k">Done</span><h2>Installed — now what?</h2></div>
+      <div class="callout">
+        <span class="big">🎉</span>
+        <p><b>Congratulations!</b> Everything from here on (how to use Claude Code, CLAUDE.md, the command map...) lives in the main guide — Mac and Windows work identically from this point on; the only difference was how you installed it. That's this page's job done. Head back to the <a href="en.html">main guide</a> and pick up at Chapter 3!</p>
+      </div>
+    </section>
+
+    <footer>
+      <span><b>Bián-kiaⁿ AI</b> · No fear, no code — just follow along · © 2026</span>
+      <span>Source: <a href="https://github.com/meicy321/claude-code-setup" style="color:var(--accent-2);text-decoration:none">github.com/meicy321/claude-code-setup</a></span>
+    </footer>
+    </div>
+
   </div>
 </div>
 
@@ -419,17 +854,50 @@ claude-code</code>
 <script>
   (function () {
     var toast = document.getElementById('toast');
+    var toastText = { zh: '已複製到剪貼簿 ✓', tai: '已經複製矣 ✓', en: 'Copied to clipboard ✓' };
+    var manualText = { zh: '請手動選取複製', tai: '請家己選起來複製', en: 'Please select and copy manually' };
     var text = "curl -fsSL https://claude.ai/install.sh | bash";
-    var btns = document.querySelectorAll('.copy-btn[data-copy-cmd]');
-    for (var i = 0; i < btns.length; i++) (function (btn) {
+    var curLang = 'zh';
+
+    document.querySelectorAll('.copy-btn[data-copy-cmd]').forEach(function (btn) {
       var orig = btn.textContent;
       btn.addEventListener('click', function () {
         navigator.clipboard.writeText(text).then(function () {
+          toast.textContent = toastText[curLang];
           toast.classList.add('show');
           setTimeout(function () { toast.classList.remove('show'); }, 1800);
-        }).catch(function () { btn.textContent = '請手動選取複製'; setTimeout(function () { btn.textContent = orig; }, 2000); });
+        }).catch(function () { btn.textContent = manualText[curLang]; setTimeout(function () { btn.textContent = orig; }, 2000); });
       });
-    })(btns[i]);
+    });
+
+    var titles = {
+      zh: '免驚 AI｜Claude Code 無痛安裝（Mac 版）',
+      tai: '免驚 AI｜Claude Code 無痛安裝（Mac 版）',
+      en: 'Bián-kiaⁿ AI | Claude Code Painless Install (Mac Edition)'
+    };
+    var backlinks = {
+      zh: { href: 'index.html', text: '← 回主教材（Windows 版）' },
+      tai: { href: 'tai.html', text: '← 倒轉去主教材（Windows 版）' },
+      en: { href: 'en.html', text: '← Back to main guide (Windows edition)' }
+    };
+    var htmlLangs = { zh: 'zh-Hant', tai: 'nan-Hant-TW', en: 'en' };
+    var backlink = document.getElementById('backlink');
+    var btns = document.querySelectorAll('.lang-btn');
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var lang = btn.getAttribute('data-lang');
+        curLang = lang;
+        btns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        document.querySelectorAll('.lang-panel').forEach(function (p) {
+          p.classList.toggle('on', p.id === 'panel-' + lang);
+        });
+        document.title = titles[lang];
+        document.documentElement.setAttribute('lang', htmlLangs[lang]);
+        backlink.href = backlinks[lang].href;
+        backlink.textContent = backlinks[lang].text;
+        window.scrollTo(0, 0);
+      });
+    });
   })();
 </script>
 </body>
