@@ -54,7 +54,7 @@
   }
   .wrap { max-width: var(--maxw); margin: 0 auto; }
 
-  .topbar { display:flex; justify-content:space-between; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+  .topbar { display:flex; justify-content:flex-end; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:1.4rem; }
   .toplink a { font-size:.82rem; font-weight:600; text-decoration:none; color:var(--muted);
     padding:.35rem .8rem; border-radius:100px; border:1px solid var(--border); background:var(--surface); transition:all .15s; }
   .toplink a:hover { color:var(--accent-2); border-color:var(--accent); }
@@ -214,7 +214,6 @@
   <div class="wrap">
 
     <div class="topbar">
-      <nav class="toplink"><a id="backlink" href="index.html">← 回主教材（Windows 版）</a></nav>
       <nav class="langnav">
         <button type="button" class="lang-btn active" data-lang="zh">中文</button>
         <button type="button" class="lang-btn" data-lang="tai">台語</button>
@@ -420,7 +419,7 @@ claude-code</code>
       <div class="sec-head"><span class="k">完成</span><h2>裝好了，然後呢？</h2></div>
       <div class="callout">
         <span class="big">🎉</span>
-        <p><b>恭喜！</b>接下來的學習內容（怎麼用 Claude Code、CLAUDE.md、指令地圖……）都在主教材裡，Mac 跟 Windows 用起來完全一樣，差別只在「怎麼裝」——這一頁的任務就到這裡。回去 <a href="index.html">主教材</a> 從第③章開始跟著做吧！</p>
+        <p><b>恭喜！</b>接下來的學習內容（怎麼用 Claude Code、CLAUDE.md、指令地圖……）會在正式上課時另外提供給你——這一頁的任務就到這裡，Mac 跟 Windows 接下來用起來完全一樣，差別只在「怎麼裝」。</p>
       </div>
     </section>
 
@@ -628,7 +627,7 @@ claude-code</code>
       <div class="sec-head"><span class="k">完成</span><h2>裝好矣，然後咧？</h2></div>
       <div class="callout">
         <span class="big">🎉</span>
-        <p><b>恭喜！</b>後壁的學習內容（欲按怎用 Claude Code、CLAUDE.md、指令地圖……）攏佇主教材內底，Mac 佮 Windows 用起來完全仝款，差別干焦佇「按怎裝」——這一頁的任務就到遮。倒轉去<a href="tai.html">主教材</a>對第③章開始綴leh做！</p>
+        <p><b>恭喜！</b>後壁的學習內容（欲按怎用 Claude Code、CLAUDE.md、指令地圖……）會佇正式上課的時另外提供予你——這一頁的任務就到遮，Mac 佮 Windows 接落來用起來完全仝款，差別干焦佇「按怎裝」。</p>
       </div>
     </section>
 
@@ -836,7 +835,7 @@ claude-code</code>
       <div class="sec-head"><span class="k">Done</span><h2>Installed — now what?</h2></div>
       <div class="callout">
         <span class="big">🎉</span>
-        <p><b>Congratulations!</b> Everything from here on (how to use Claude Code, CLAUDE.md, the command map...) lives in the main guide — Mac and Windows work identically from this point on; the only difference was how you installed it. That's this page's job done. Head back to the <a href="en.html">main guide</a> and pick up at Chapter 3!</p>
+        <p><b>Congratulations!</b> Everything from here on (how to use Claude Code, CLAUDE.md, the command map...) will be shared with you separately when class starts. That's this page's job done — Mac and Windows work identically from this point on; the only difference was how you installed it.</p>
       </div>
     </section>
 
@@ -875,13 +874,7 @@ claude-code</code>
       tai: '免驚 AI｜Claude Code 無痛安裝（Mac 版）',
       en: 'Bián-kiaⁿ AI | Claude Code Painless Install (Mac Edition)'
     };
-    var backlinks = {
-      zh: { href: 'index.html', text: '← 回主教材（Windows 版）' },
-      tai: { href: 'tai.html', text: '← 倒轉去主教材（Windows 版）' },
-      en: { href: 'en.html', text: '← Back to main guide (Windows edition)' }
-    };
     var htmlLangs = { zh: 'zh-Hant', tai: 'nan-Hant-TW', en: 'en' };
-    var backlink = document.getElementById('backlink');
     var btns = document.querySelectorAll('.lang-btn');
     btns.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -893,8 +886,6 @@ claude-code</code>
         });
         document.title = titles[lang];
         document.documentElement.setAttribute('lang', htmlLangs[lang]);
-        backlink.href = backlinks[lang].href;
-        backlink.textContent = backlinks[lang].text;
         window.scrollTo(0, 0);
       });
     });
