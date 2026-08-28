@@ -52,9 +52,24 @@ function Get-CodeCmd {
     return $null
 }
 
+# --- 0.5 全程紀錄：萬一又出事，桌面會留下一份紀錄可以傳給老師 ---
+$logPath = Join-Path ([Environment]::GetFolderPath('Desktop')) "claude-code-安裝紀錄.txt"
+$logging = $false
+try {
+    Start-Transcript -Path $logPath -Force -ErrorAction Stop | Out-Null
+    $logging = $true
+} catch {
+    # 有些環境不支援 transcript，略過即可，不影響安裝
+}
+
 Write-Host "============================================" -ForegroundColor Magenta
 Write-Host "   Claude Code 無痛安裝精靈 (Windows)" -ForegroundColor Magenta
 Write-Host "============================================" -ForegroundColor Magenta
+if ($logging) {
+    Write-Host "  (安裝過程會記錄在桌面的『claude-code-安裝紀錄.txt』，" -ForegroundColor DarkGray
+    Write-Host "   萬一裝不起來，把這個檔案傳給老師就能查原因)" -ForegroundColor DarkGray
+}
+Write-Host "  PowerShell 版本：$($PSVersionTable.PSVersion) / 64位元行程：$([Environment]::Is64BitProcess)" -ForegroundColor DarkGray
 
 # --- 1. 檢查環境 ---
 Write-Step "檢查 Windows 版本"
@@ -64,10 +79,18 @@ Write-Host "  偵測到 Windows 版本：$($os.Major).$($os.Minor) (Build $build
 if ($build -lt 17763) {
     Write-Err2 "你的 Windows 太舊 (需要 Windows 10 1809 / Build 17763 以上)。"
     Write-Err2 "請先更新 Windows，或改用 WSL 安裝。安裝中止。"
+    if ($logging) { try { Stop-Transcript | Out-Null } catch { } }
     return
 }
 if (-not [Environment]::Is64BitOperatingSystem) {
     Write-Err2 "Claude Code 不支援 32 位元 Windows。安裝中止。"
+    if ($logging) { try { Stop-Transcript | Out-Null } catch { } }
+    return
+}
+if (-not [Environment]::Is64BitProcess) {
+    Write-Err2 "你開到的是 32 位元的 PowerShell（視窗標題會寫 x86），Claude Code 不支援。"
+    Write-Err2 "請關掉這個視窗，改從「開始」搜尋『Windows PowerShell』（不要選 x86 那個）重開。"
+    if ($logging) { try { Stop-Transcript | Out-Null } catch { } }
     return
 }
 Write-Ok "Windows 版本符合需求"
@@ -410,3 +433,11 @@ Write-Host " License : CC BY-NC-SA 4.0 - 個人使用、學習、分享自由；
 Write-Host " (C) 2026 免驚 AI - 歡迎分享，勿改標後販售" -ForegroundColor Gray
 Write-Host "===============================================================" -ForegroundColor DarkGray
 Write-Host ""
+
+if ($logging) {
+    if (-not $okClaude) {
+        Write-Host "裝不起來的話，請把桌面的『claude-code-安裝紀錄.txt』傳給老師。" -ForegroundColor Yellow
+        Write-Host ""
+    }
+    try { Stop-Transcript | Out-Null } catch { }
+}
