@@ -103,10 +103,10 @@ Write-Host "  （它有時候會躲在其他視窗後面，若畫面卡住不動
 # --- 1.5 專案資料夾命名 ---
 Write-Step "幫你的專案資料夾取個名字"
 Write-Host "  這是等一下 Claude Code 會在裡面工作的資料夾。"
-$projName = Read-Host "  想叫什麼名字？（建議用英文/數字/減號；直接按 Enter 用預設 claude-code）"
-if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "claude-code" }
+$projName = Read-Host "  想叫什麼名字？（建議用英文/數字/減號；直接按 Enter 用預設 my-project）"
+if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "my-project" }
 $projName = ($projName -replace '[<>:"/\\|?*]', '').Trim()
-if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "claude-code" }
+if ([string]::IsNullOrWhiteSpace($projName)) { $projName = "my-project" }
 Write-Ok "好，專案資料夾就叫：$projName"
 
 # --- 2. winget ---
@@ -359,6 +359,10 @@ try {
         $lnk.Arguments         = '"' + $projDir + '"'
         $lnk.WorkingDirectory  = $projDir
         $lnk.Description       = "用 VS Code 打開 Claude Code 專案"
+        # 用 Windows 內建的資料夾圖示，不要用 VS Code 的圖示（雙擊本來就是開資料夾）
+        $iconRes = Join-Path $env:SystemRoot 'System32\imageres.dll'
+        if (-not (Test-Path $iconRes)) { $iconRes = Join-Path $env:SystemRoot 'System32\shell32.dll' }
+        $lnk.IconLocation = "$iconRes,3"
         $lnk.Save()
         Write-Ok "已在桌面建立「Claude Code」捷徑（雙擊用 VS Code 打開專案）"
     } else {
