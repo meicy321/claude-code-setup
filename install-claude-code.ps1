@@ -203,40 +203,37 @@ if ($codeCmd) {
         Write-Warn2 "擴充套件安裝時有點小狀況（開 VS Code 後在擴充商店搜『Claude Code』也可手動裝）"
     }
 
-    # 把 VS Code 的預設終端機設成 Git Bash
+    # 把 VS Code 的預設終端機設成 PowerShell
+    # （Claude Code 內部的 Bash 工具仍然走 Git Bash，見下面第 5 段，兩者不衝突）
     # 重要：舊版在 settings.json 解析失敗時會「整份覆蓋」，把學員原本的設定清光。
     #       這裡改成解析不了就不動它，只提示。
-    if ($hasGit) {
-        try {
-            $vsDir = Join-Path $env:APPDATA 'Code\User'
-            if (-not (Test-Path $vsDir)) { New-Item -ItemType Directory -Path $vsDir -Force | Out-Null }
-            $vsSettings = Join-Path $vsDir 'settings.json'
-            $obj = $null
-            $parseFailed = $false
-            if (Test-Path $vsSettings) {
-                $raw = Get-Content $vsSettings -Raw -ErrorAction SilentlyContinue
-                if ([string]::IsNullOrWhiteSpace($raw)) {
-                    $obj = New-Object PSObject
-                } else {
-                    try { $obj = $raw | ConvertFrom-Json -ErrorAction Stop } catch { $parseFailed = $true }
-                }
-            } else {
+    try {
+        $vsDir = Join-Path $env:APPDATA 'Code\User'
+        if (-not (Test-Path $vsDir)) { New-Item -ItemType Directory -Path $vsDir -Force | Out-Null }
+        $vsSettings = Join-Path $vsDir 'settings.json'
+        $obj = $null
+        $parseFailed = $false
+        if (Test-Path $vsSettings) {
+            $raw = Get-Content $vsSettings -Raw -ErrorAction SilentlyContinue
+            if ([string]::IsNullOrWhiteSpace($raw)) {
                 $obj = New-Object PSObject
-            }
-
-            if ($parseFailed) {
-                Write-Warn2 "你的 VS Code settings.json 有自訂內容（或含註解），為了不覆蓋掉它，這步跳過。"
-                Write-Warn2 '可自行加入： "terminal.integrated.defaultProfile.windows": "Git Bash"'
             } else {
-                $obj | Add-Member -NotePropertyName 'terminal.integrated.defaultProfile.windows' -NotePropertyValue 'Git Bash' -Force
-                Write-JsonNoBom $vsSettings $obj
-                Write-Ok "已把 VS Code 的預設終端機設成 Git Bash"
+                try { $obj = $raw | ConvertFrom-Json -ErrorAction Stop } catch { $parseFailed = $true }
             }
-        } catch {
-            Write-Warn2 "設定 VS Code 終端機時略過（不影響使用）"
+        } else {
+            $obj = New-Object PSObject
         }
-    } else {
-        Write-Warn2 "沒有 Git，VS Code 終端機維持 PowerShell（Claude Code 仍可使用）"
+
+        if ($parseFailed) {
+            Write-Warn2 "你的 VS Code settings.json 有自訂內容（或含註解），為了不覆蓋掉它，這步跳過。"
+            Write-Warn2 '可自行加入： "terminal.integrated.defaultProfile.windows": "PowerShell"'
+        } else {
+            $obj | Add-Member -NotePropertyName 'terminal.integrated.defaultProfile.windows' -NotePropertyValue 'PowerShell' -Force
+            Write-JsonNoBom $vsSettings $obj
+            Write-Ok "已把 VS Code 的預設終端機設成 PowerShell"
+        }
+    } catch {
+        Write-Warn2 "設定 VS Code 終端機時略過（不影響使用）"
     }
 } else {
     Write-Warn2 "找不到 VS Code（可能沒有 winget）。可手動安裝：https://code.visualstudio.com/"
@@ -333,7 +330,7 @@ try {
 
 在這個 VS Code 視窗裡，這樣開始：
   1. 上方選單點 [Terminal] -> [New Terminal]（或按 Ctrl 和左上角的 反引號 鍵）
-  2. 終端機會用 Git Bash 打開
+  2. 終端機會用 PowerShell 打開
   3. 輸入：  claude
   4. 第一次會請你用瀏覽器登入（需要 Claude Pro / Max 訂閱）
 
@@ -419,11 +416,7 @@ Write-Host "  接下來這樣用：" -ForegroundColor Cyan
 Write-Host "  1. 雙擊桌面的『Claude Code』圖示 -> 會用 VS Code 打開你的專案" -ForegroundColor White
 Write-Host "  2. 打開終端機：在 VS Code 最上方的選單列點『Terminal』->『New Terminal』" -ForegroundColor White
 Write-Host "     （鍵盤快速鍵：Ctrl 加上左上角 Esc 底下那個 反引號 鍵）"
-if ($okGit) {
-    Write-Host "     終端機會從畫面下方跳出來，已經幫你設好用 Git Bash"
-} else {
-    Write-Host "     終端機會從畫面下方跳出來（這台電腦沒有 Git，會是 PowerShell，一樣可以用）"
-}
+Write-Host "     終端機會從畫面下方跳出來，已經幫你設好用 PowerShell"
 Write-Host "  3. 在跳出來的終端機輸入 claude，第一次會請你用瀏覽器登入" -ForegroundColor White
 Write-Host ""
 Write-Host "  小提醒：要能實際對話，需要 Claude Pro / Max 訂閱喔" -ForegroundColor Yellow
